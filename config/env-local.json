@@ -1,0 +1,55 @@
+{
+  "env": "local",
+  "server": {
+    "routes": {
+      "cors": true,
+      "timeout": {
+        "server": 1200000,
+        "socket": 1300000
+      }
+    },
+    "port": 55202,
+    "host": "0.0.0.0:55202"
+  },
+  "database": {
+    "mongo": {
+      "name": "IP_TEST",
+      "host": "0.0.0.0",
+      "port": 27017,
+      "username": "",
+      "password": ""
+    }
+  },
+  "redis_env": {
+    "port": 6379,
+    "host": "0.0.0.0",
+    "password": ""
+  },
+  "logging": {
+    "name": "IP-TEST-DEV",
+    "level": "debug",
+    "path": "log.txt"
+  },
+  "swagger_info": {
+    "title": "Sample MS APIs",
+    "description": "Sample MS Api Documentation",
+    "version": "1.0",
+    "termsOfService": "This documentation is private.",
+    "contact": {
+      "name": "Admin",
+      "email": "admin@example.com"
+    }
+  },
+  "que_topics": {},
+  "que_env": {
+    "protocol": "",
+    "host": "",
+    "directory": "",
+    "port": "",
+    "username": "",
+    "password": ""
+  },
+  "JWT_secret": "##20",
+  "JWT_expiry": "2h",
+  "JWT_algo": "HS256"
+}

@@ -1,5 +1,5 @@
 ###############################
-FROM node:dubnium
+FROM node:14-alpine
 ENV NODE_OPTIONS --max-old-space-size=3048
 WORKDIR /app
 
@@ -9,7 +9,7 @@ WORKDIR /app
 COPY ./package* ./
 RUN ls -al
 RUN npm install && \
-    npm cache clean --force
+  npm cache clean --force
 
 COPY . .
 

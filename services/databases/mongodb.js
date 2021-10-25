@@ -9,20 +9,27 @@ const Mongoose = require('mongoose');
 const Config = require('config');
 const log = require('services/logger/logger');
 
+const { MONGO_HOST, MONGO_PORT, MONGO_USERNAME, MONGO_PASSWORD, MONGO_DB_NAME } = process.env;
+
+const host = MONGO_HOST || Config.database.mongo.host;
+const port = MONGO_PORT || Config.database.mongo.port;
+const username = MONGO_USERNAME || Config.database.mongo.username;
+const password = MONGO_PASSWORD || Config.database.mongo.password;
+const db_name = MONGO_DB_NAME || Config.database.mongo.name;
 
 exports.init = () => {
   let connectionURI = '';
   if (Config.env === 'local' || Config.env === 'test') {
-    if (Config.database.mongo.username && Config.database.mongo.password) {
-      connectionURI = `mongodb://${Config.database.mongo.username}:${Config.database.mongo.password}@${Config.database.mongo.host}:${Config.database.mongo.port}/${Config.database.mongo.name}?authSource=admin`;
+    if (username && password) {
+      connectionURI = `mongodb://${username}:${password}@${host}:${port}/${db_name}?authSource=admin`;
     } else {
-      connectionURI = `mongodb://${Config.database.mongo.host}:${Config.database.mongo.port}/${Config.database.mongo.name}`;
+      connectionURI = `mongodb://${host}:${port}/${db_name}`;
     }
-  } else if (Config.database.mongo.username && Config.database.mongo.password) {
+  } else if (username && password) {
     // connection_uri = `mongodb://${config.database.mongo.username}:${config.database.mongo.password}@${config.database.mongo.clusterHosts}/${config.database.mongo.name}?authSource=admin&replicaSet=${config.database.mongo.replicaSetName}`;
-    connectionURI = `mongodb://${Config.database.mongo.username}:${Config.database.mongo.password}@${Config.replicaConfig.clusterHosts}/${Config.database.mongo.name}?replicaSet=${Config.replicaConfig.replicaSetName}&authSource=admin`;
+    connectionURI = `mongodb://${username}:${password}@${Config.replicaConfig.clusterHosts}/${db_name}?replicaSet=${Config.replicaConfig.replicaSetName}&authSource=admin`;
   } else {
-    connectionURI = `mongodb://${Config.replicaConfig.clusterHosts}/${Config.database.mongo.name}?replicaSet=${Config.replicaConfig.replicaSetName}`;
+    connectionURI = `mongodb://${Config.replicaConfig.clusterHosts}/${db_name}?replicaSet=${Config.replicaConfig.replicaSetName}`;
   }
 
   Mongoose.connect(connectionURI, {
@@ -34,7 +41,7 @@ exports.init = () => {
     poolSize: 10,
   });
   Mongoose.connection.on('connected', () => {
-    log.info(`Mongoose default connection open to mongodb://${Config.database.mongo.host}/${Config.database.mongo.name}`);
+    log.info(`Mongoose default connection open to mongodb://${host}/${db_name}`);
   });
 
   Mongoose.connection.on('error', (err) => {

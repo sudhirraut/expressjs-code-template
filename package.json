@@ -1,11 +1,13 @@
 {
-  "name": "Express Sample code",
+  "name": "express_code_template_js",
   "version": "1.0.0",
   "description": "Express Sample code",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": ""
+    "test": "nyc --reporter=lcov --reporter=text --report-dir='./spec/test-report' --temp-dir='./spec/test-report' jasmine spec/index.spec.js spec/main.spec.js",
+    "lint": "./node_modules/.bin/eslint --init",
+    "start-dev": "export NODE_ENV=development && npm start"
   },
   "keywords": [
     "Express",

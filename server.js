@@ -8,7 +8,7 @@ const helmet = require('helmet')
 const log = require('services/logger/logger');
 const Components = require('./src/components/index');
 
-
+const { NODE_PORT } = process.env;
 exports.init = async (database) => {
   try {
     const app = express();
@@ -16,7 +16,7 @@ exports.init = async (database) => {
     app.use(helmet());
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
-    const port = process.env.PORT || Config.server.port;
+    const port = NODE_PORT || Config.server.port;
     app.use(function (req, res, next) {
       res.on('finish', () => {
         const { statusCode, statusMessage } = res;

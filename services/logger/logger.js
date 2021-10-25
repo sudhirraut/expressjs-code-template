@@ -1,21 +1,22 @@
 /*
-* Created on Fri Jul 03 2020 3:31:39 PM
-*
-* Created by Sudhir Raut
-* Copyright (c) 2020  
-*/
+ * Created on Mon Oct 04 2021 2:21:07 PM
+ *
+ * Created by Sudhir Raut
+ * Copyright (c) 2021
+ */
 
-
-let loggingConfig = require('config').logging;
+const loggingConfig = require('config').logging;
 const bunyan = require('bunyan'); // Bunyan dependency
 
+const { LOGGING_NAME, LOGIING_LEVEL, LOGGING_PATH } = process.env;
+
 const logger = bunyan.createLogger({
-  name: loggingConfig.name,
+  name: LOGGING_NAME || loggingConfig.name,
   serializers: bunyan.stdSerializers,
   streams: [
     {
-      level: loggingConfig.level,
-      path: loggingConfig.path,
+      level: LOGIING_LEVEL || loggingConfig.level,
+      path: LOGGING_PATH || loggingConfig.path,
     },
     {
       level: bunyan.ERROR,
